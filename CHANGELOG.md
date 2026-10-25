@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- Preserve main-actor isolation when type-erasing template resolution with an
+  explicit closure, fixing the method-reference conversion error on Xcode 26.6.
+
 - Add GitHub Actions checks for pinned SwiftFormat lint, iOS simulator tests,
   and DocC warnings as errors, with downloadable test/documentation artifacts
   and shared local CI scripts. Normalize existing formatting for the lint check.

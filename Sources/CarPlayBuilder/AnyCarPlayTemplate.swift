@@ -21,7 +21,10 @@ public struct AnyCarPlayTemplate: CarPlayTemplate {
     ///   while resolving it remains part of the host’s dependency tracking.
     public init(_ content: some CarPlayTemplate) {
 
-        self.resolve = content._resolve
+        self.resolve = {
+
+            content._resolve()
+        }
     }
 
     /// Resolves this value for the package’s native renderer.
