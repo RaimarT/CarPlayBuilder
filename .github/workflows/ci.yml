@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+
+jobs:
+  formatting:
+    name: SwiftFormat
+    runs-on: macos-26
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Install pinned SwiftFormat
+        run: |
+          version="$(cat .swiftformat-version)"
+          if command -v swiftformat >/dev/null && \
+            [[ "$(swiftformat --version)" == "$version" ]]; then
+            exit 0
+          fi
+          tool_dir="$RUNNER_TEMP/swiftformat"
+          mkdir -p "$tool_dir"
+          curl --fail --location --retry 3 \
+            "https://github.com/nicklockwood/SwiftFormat/releases/download/$version/swiftformat.zip" \
+            --output "$tool_dir/swiftformat.zip"
+          unzip -q "$tool_dir/swiftformat.zip" -d "$tool_dir"
+          chmod +x "$tool_dir/swiftformat"
+          echo "$tool_dir" >> "$GITHUB_PATH"
+      - name: Check formatting
+        run: bash .github/scripts/ci.sh format
+
+  tests:
+    name: iOS simulator tests
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Build and test
+        run: bash .github/scripts/ci.sh test "$RUNNER_TEMP/carplaybuilder"
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: simulator-test-results
+          path: ${{ runner.temp }}/carplaybuilder/TestResults.xcresult
+          if-no-files-found: ignore
+          retention-days: 7
+
+  documentation:
+    name: DocC
+    runs-on: macos-26
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Build documentation with warnings as errors
+        run: bash .github/scripts/ci.sh docs "$RUNNER_TEMP/carplaybuilder"
+      - name: Upload documentation archive
+        uses: actions/upload-artifact@v6
+        with:
+          name: CarPlayBuilder-documentation
+          path: ${{ runner.temp }}/carplaybuilder/CarPlayBuilder.doccarchive
+          if-no-files-found: error
+          retention-days: 7

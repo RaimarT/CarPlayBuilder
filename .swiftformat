@@ -1,0 +1,90 @@
+# list of rules will be available at:
+# https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md
+
+# swift version
+
+--swiftversion 6.2
+
+
+# exclude folders
+# f.e. auto code generated files
+
+--exclude **/External/,**/Generated/,./Pods/,./fastlane_builds
+
+
+# formatting options
+
+## rules with specification
+
+### elseOnSameLine
+--guardelse next-line
+### fileHeader
+--header ignore
+### indent
+--indent 4
+--indentstrings true
+### modifierOrder
+--modifierorder override,acl,setterACL,dynamic,mutators,lazy,final,required,convenience,typeMethods,owned
+### redundantSelf
+--self insert
+### semicolons
+--semicolons never
+### sortedImports
+--importgrouping testable-last
+### trailingCommas
+--commas inline
+### trailingSpace
+--trimwhitespace nonblank-lines
+### unusedArguments
+--stripunusedargs closure-only
+### wrapArguments
+--wraparguments before-first
+--wrapcollections before-first
+--wrapparameters before-first
+### wrapAttributes
+--funcattributes prev-line
+--typeattributes prev-line
+--varattributes prev-line
+
+
+# enable rules
+
+--enable                                \
+    blankLinesBetweenImports,           \
+    blockComments,                      \
+    docComments,                        \
+    isEmpty,                            \
+    wrapGuardStatementBodies,           \
+    wrapEnumCases
+
+
+# disable rules
+
+--disable                               \
+    blankLinesAtStartOfScope,           \
+    consecutiveBlankLines,              \
+    numberFormatting,                   \
+# issues with publishers
+    preferKeyPath,                      \
+    wrap,                               \
+    wrapMultilineStatementBraces
+
+# Spacing required by AGENTS.md.
+--enable blankLinesAfterGuardStatements,wrapCaseBodies
+--line-between-guards true
+# Explicit return opts primitive bodies out of the protocol's result builder.
+--disable redundantReturn
+
+# Preserve declaration line breaks; review the 85-column guideline manually.
+# Compact typealiases may exceed it. Do not reflow generics by line width.
+--max-width none
+--disable wrap,sortSwitchCases,wrapSwitchCases
+# Preserve manual indentation, including aligned extension where clauses.
+--disable indent
+--allow-partial-wrapping false
+--closing-paren balanced
+--call-site-paren balanced
+--list-wrap-threshold none
+
+# Preserve compact typealiases instead of splitting them at '=' or '->'.
+--wrap-type-aliases disabled
