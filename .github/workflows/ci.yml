@@ -79,6 +79,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: CarPlayBuilder-documentation
-          path: ${{ runner.temp }}/carplaybuilder/CarPlayBuilder.doccarchive
+          path: ${{ runner.temp }}/carplaybuilder/CarPlayBuilder.doccarchive.tar.gz
+          compression-level: 0
           if-no-files-found: error
           retention-days: 7

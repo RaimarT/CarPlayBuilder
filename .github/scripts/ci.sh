@@ -56,6 +56,9 @@ build_docs() {
     --additional-symbol-graph-dir "$output/SymbolGraphs" \
     --output-dir "$output/CarPlayBuilder.doccarchive" \
     --warnings-as-errors
+  # DocC symbol filenames contain colons, which artifact uploads reject.
+  COPYFILE_DISABLE=1 tar -czf "$output/CarPlayBuilder.doccarchive.tar.gz" \
+    -C "$output" CarPlayBuilder.doccarchive
 }
 
 output="${2:-$(mktemp -d "${TMPDIR:-/tmp}/CarPlayBuilder-CI.XXXXXX")}"

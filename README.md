@@ -1310,8 +1310,11 @@ iPhone on iOS 26.4 or later so newer CarPlay layouts and list headers are covere
 
 SwiftFormat is pinned in `.swiftformat-version` and reads `.swiftformat`. CI
 lints without rewriting files. Test results (`.xcresult`) are uploaded even when
-tests fail, and successful DocC builds upload a `.doccarchive`; artifacts are
-retained for seven days. Documentation warnings fail the DocC check.
+tests fail, and successful DocC builds upload `CarPlayBuilder.doccarchive.tar.gz`.
+The tar archive preserves DocC symbol filenames that GitHub's artifact uploader
+otherwise rejects. After downloading, extract it with
+`tar -xzf CarPlayBuilder.doccarchive.tar.gz` to open the `.doccarchive` in Xcode.
+Artifacts are retained for seven days. Documentation warnings fail the DocC check.
 
 Run the same checks locally with the selected Xcode command-line tools and the
 pinned SwiftFormat version installed:

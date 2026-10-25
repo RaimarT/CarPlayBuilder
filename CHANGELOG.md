@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- Package DocC output in a tar archive before uploading CI artifacts, preserving
+  symbol filenames containing colons that GitHub's uploader otherwise rejects.
+
 - Preserve main-actor isolation when type-erasing template resolution with an
   explicit closure, fixing the method-reference conversion error on Xcode 26.6.
 
