@@ -10,9 +10,10 @@ its models, networking, audio player, queue, and MediaPlayer metadata.
 ## Requirements
 
 - iOS 17 or later.
-- Swift 6.2 or later and an Xcode version supporting that toolchain.
+- Swift 6.2 or later and Xcode with the iOS 26.4 SDK or later. CI uses Xcode 26.6.
 - An app configured for CarPlay with the appropriate entitlement and scene.
 - iOS 26 or later for `CarPlayImageRow` and `CarPlayImageElement` layouts.
+- iOS 26.4 or later for rich list headers.
 
 The package does not grant CarPlay access or configure your app’s capabilities.
 See Apple’s [CarPlay entitlement guidance](https://developer.apple.com/documentation/carplay/requesting-carplay-entitlements)
@@ -26,16 +27,16 @@ In Xcode, choose **File → Add Package Dependencies** and enter:
 https://github.com/RaimarT/CarPlayBuilder.git
 ```
 
-Add the **CarPlayBuilder** library product to your app target. Until a versioned
-release is available, select the `main` branch. Prefer a release version for
-production dependencies once tags are published.
+Add the **CarPlayBuilder** library product to your app target. For version 1.0.0,
+select **Up to Next Major Version** with a minimum version of **1.0.0** once the
+release tag is published.
 
 For a Swift package consumer, add this dependency to its `Package.swift`:
 
 ```swift
 .package(
     url: "https://github.com/RaimarT/CarPlayBuilder.git",
-    branch: "main"
+    from: "1.0.0"
 )
 ```
 
@@ -47,6 +48,10 @@ Then add the product to the consuming target’s dependencies:
 
 Import `CarPlayBuilder` in source files using the API. Import `CarPlay` or `UIKit`
 when referring directly to types from those frameworks.
+
+The public API follows [Semantic Versioning](https://semver.org/). Within 1.x,
+releases preserve source compatibility; incompatible public API changes require
+a new major version. Platform and toolchain requirements are listed above.
 
 ## Quick start
 
