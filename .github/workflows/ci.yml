@@ -56,6 +56,8 @@ jobs:
           persist-credentials: false
       - name: Build and test
         run: bash .github/scripts/ci.sh test "$RUNNER_TEMP/carplaybuilder"
+      - name: Build sample app
+        run: bash .github/scripts/ci.sh sample "$RUNNER_TEMP/carplaybuilder"
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v6

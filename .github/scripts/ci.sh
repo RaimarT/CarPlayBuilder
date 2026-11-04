@@ -13,7 +13,16 @@ check_format() {
     echo "SwiftFormat $expected is required; see .swiftformat-version." >&2
     return 1
   fi
-  swiftformat --lint Package.swift Sources Tests --cache ignore
+  swiftformat --lint Package.swift Sources Tests Examples --cache ignore
+}
+
+build_sample() {
+  xcodebuild build \
+    -project Examples/CarPlaySample/CarPlaySample.xcodeproj \
+    -scheme CarPlaySample \
+    -destination 'generic/platform=iOS Simulator' \
+    -derivedDataPath "$output/SampleDerivedData" \
+    CODE_SIGNING_ALLOWED=NO
 }
 
 run_tests() {
@@ -69,7 +78,8 @@ printf 'CI output: %s\n' "$output"
 case "${1:-}" in
   format) check_format ;;
   test) run_tests ;;
+  sample) build_sample ;;
   docs) build_docs ;;
-  *) echo "Usage: bash .github/scripts/ci.sh {format|test|docs} [output-dir]" >&2
+  *) echo "Usage: bash .github/scripts/ci.sh {format|test|sample|docs} [output-dir]" >&2
      exit 2 ;;
 esac

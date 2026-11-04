@@ -7,6 +7,11 @@ and Now Playing controls without managing native template updates yourself.
 CarPlayBuilder is a Swift package with no external dependencies. Your app owns
 its models, networking, audio player, queue, and MediaPlayer metadata.
 
+Version 1.1.0 adds a runnable [sample app](#sample-app) with an iPhone companion
+interface, a CarPlay Browse grid, artwork, loading and retry demos, and bundled
+audio playback. The library's public API and platform requirements are unchanged
+from 1.0.0.
+
 ## Requirements
 
 - iOS 17 or later.
@@ -27,8 +32,8 @@ In Xcode, choose **File → Add Package Dependencies** and enter:
 https://github.com/RaimarT/CarPlayBuilder.git
 ```
 
-Add the **CarPlayBuilder** library product to your app target. For version 1.0.0,
-select **Up to Next Major Version** with a minimum version of **1.0.0** once the
+Add the **CarPlayBuilder** library product to your app target. For version 1.1.0,
+select **Up to Next Major Version** with a minimum version of **1.1.0** once the
 release tag is published.
 
 For a Swift package consumer, add this dependency to its `Package.swift`:
@@ -36,7 +41,7 @@ For a Swift package consumer, add this dependency to its `Package.swift`:
 ```swift
 .package(
     url: "https://github.com/RaimarT/CarPlayBuilder.git",
-    from: "1.0.0"
+    from: "1.1.0"
 )
 ```
 
@@ -52,6 +57,17 @@ when referring directly to types from those frameworks.
 The public API follows [Semantic Versioning](https://semver.org/). Within 1.x,
 releases preserve source compatibility; incompatible public API changes require
 a new major version. Platform and toolchain requirements are listed above.
+
+## Sample app
+
+Open [CarPlaySample.xcodeproj](Examples/CarPlaySample/CarPlaySample.xcodeproj)
+in Xcode and run the **CarPlaySample** scheme on an iPhone simulator. Open
+**I/O → External Displays → CarPlay** in Simulator to try the native interface.
+
+The [sample guide](Examples/CarPlaySample/README.md) walks through scene setup,
+observable lists, a Browse grid, loading and retry states, artwork rows, toolbar
+actions, confirmation sheets, and native Now Playing with bundled demo audio.
+It uses a local reference to this package, with no server required.
 
 ## Quick start
 
@@ -1289,8 +1305,9 @@ in Xcode, select the `CarPlayBuilder` scheme and an iOS destination, and choose
 **Product → Build Documentation** to browse the API and package overview.
 
 The repository contains the library in `Sources/CarPlayBuilder` and Swift Testing
-unit tests in `Tests/CarPlayBuilderTests`. There is no example app or Xcode test
-project. Open the package in Xcode and run its tests on an installed iOS simulator.
+unit tests in `Tests/CarPlayBuilderTests`, and a standalone iOS sample in
+`Examples/CarPlaySample`. Open the package in Xcode and run its tests on an
+installed iOS simulator.
 A plain macOS `swift test` cannot build the iOS CarPlay and UIKit frameworks.
 
 Tests cover builders, observation, reconciliation, navigation, modal actions,
@@ -1309,6 +1326,7 @@ relevant tests. Record user-visible changes in [CHANGELOG.md](CHANGELOG.md).
 
 GitHub Actions runs independent **SwiftFormat**, **iOS simulator tests**, and
 **DocC** checks on pushes, pull requests, and manual workflow runs. The workflow
+also builds the sample app as part of the **iOS simulator tests** check. It
 uses the [`macos-26` runner](https://github.com/actions/runner-images/blob/main/images/macos/macos-26-Readme.md)
 with Xcode 26.6. Simulator selection uses an available
 iPhone on iOS 26.4 or later so newer CarPlay layouts and list headers are covered.
@@ -1327,6 +1345,7 @@ pinned SwiftFormat version installed:
 ```sh
 bash .github/scripts/ci.sh format
 bash .github/scripts/ci.sh test
+bash .github/scripts/ci.sh sample
 bash .github/scripts/ci.sh docs
 ```
 
