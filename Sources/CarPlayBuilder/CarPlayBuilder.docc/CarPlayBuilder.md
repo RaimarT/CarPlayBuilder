@@ -8,6 +8,27 @@ CarPlayBuilder targets iOS 17 and later with Swift 6.2 or later. It has no exter
 dependencies. Your application supplies CarPlay entitlements, a configured scene,
 models, networking, audio playback, and media metadata.
 
+### Explore the sample app
+
+Version 1.1.0 includes a runnable iOS sample in `Examples/CarPlaySample`, using a
+local reference to the package. Open `CarPlaySample.xcodeproj` and run the
+**CarPlaySample** scheme on an iPhone simulator. The SwiftUI companion and
+CarPlay scene share one observable application model.
+
+Explore Library and Saved lists, an eight-button Browse grid, navigation, tab
+badges, toolbar actions, alerts, and a confirmation sheet. Discovery screens
+demonstrate loading, empty results, a simulated failure with retry, and refresh
+with retained content. Artwork rows require iOS 26; rich list headers require
+iOS 26.4. Earlier systems retain the other examples.
+
+The sample supplies its own player, remote commands, media metadata, and three
+original bundled audio loops. All demonstration content works offline. See the
+[sample setup guide](https://github.com/RaimarT/CarPlayBuilder/tree/main/Examples/CarPlaySample)
+for simulator instructions and entitlement requirements. This release adds
+examples without changing the library's public API or platform requirements.
+
+### Integrate the library
+
 Retain one ``CarPlayHost`` per scene and call its `connect(animated:)` method after
 CarPlay supplies an interface controller. Disconnect the host when the scene ends.
 Compose reusable components by implementing ``CarPlayTemplate/body``. The host
